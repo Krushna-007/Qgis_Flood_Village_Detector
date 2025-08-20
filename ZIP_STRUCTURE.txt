@@ -1,0 +1,12 @@
+village_plugin/
+├── __init__.py
+├── flood_village_detector.py
+├── metadata.txt
+├── README.md
+├── INSTALL.md
+├── EXAMPLE_USAGE.md
+├── CHANGELOG.md
+├── COMPATIBILITY_NOTES.md
+├── CONTRIBUTING.md
+├── SECURITY.md
+├── LICENSE
