@@ -1,0 +1,77 @@
+name: Create Release Package
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Create plugin package
+      run: |
+        # Create the plugin directory structure
+        mkdir -p flood_village_detector
+        
+        # Copy plugin files
+        cp __init__.py flood_village_detector/
+        cp flood_village_detector.py flood_village_detector/
+        cp metadata.txt flood_village_detector/
+        cp LICENSE flood_village_detector/
+        cp README.md flood_village_detector/
+        cp INSTALLATION.md flood_village_detector/
+        cp CHANGELOG.md flood_village_detector/
+        
+        # Create ZIP package
+        zip -r flood_village_detector.zip flood_village_detector/
+        
+    - name: Get version from metadata
+      id: get_version
+      run: |
+        VERSION=$(grep "^version=" metadata.txt | cut -d'=' -f2)
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref_name }}
+        release_name: QGIS Flood Village Detector v${{ steps.get_version.outputs.version }}
+        body: |
+          ## 🌊 QGIS Flood Village Detector v${{ steps.get_version.outputs.version }}
+          
+          ### 📥 Installation
+          1. Download `flood_village_detector.zip`
+          2. Open QGIS → Plugins → Manage and Install Plugins
+          3. Click "Install from ZIP" and select the downloaded file
+          4. Enable the plugin and start analyzing flood risks!
+          
+          ### 📋 Requirements
+          - QGIS 3.16 or higher
+          - Windows 10+, macOS 10.14+, or Linux
+          
+          ### 🆕 What's New
+          See [CHANGELOG.md](https://github.com/Krushna-007/Qgis_Flood_Village_Detector/blob/main/CHANGELOG.md) for detailed changes.
+          
+          ### 🐛 Issues?
+          Please report any issues [here](https://github.com/Krushna-007/Qgis_Flood_Village_Detector/issues).
+        draft: false
+        prerelease: false
+        
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./flood_village_detector.zip
+        asset_name: flood_village_detector.zip
+        asset_content_type: application/zip

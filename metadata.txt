@@ -1,0 +1,29 @@
+[general]
+name=Flood Village Detector
+qgisMinimumVersion=3.16
+qgisMaximumVersion=3.99
+description=A QGIS plugin to detect villages flooded at given DEM threshold levels. Analyzes DEM raster data against village point and polygon layers to identify areas below specified flood levels.
+version=1.0
+author=Krushna Parmar
+email=krushnaparmar@ieee.org
+
+about=This plugin automates flood detection workflow by:
+    - Selecting DEM raster layers
+    - Analyzing village points and polygons
+    - Setting customizable flood threshold levels
+    - Exporting results to CSV format
+    - Providing real-time progress reporting
+    - Supporting shapefiles and other vector formats
+    - Background processing with progress tracking
+
+tracker=https://github.com/Krushna-007/Qgis_Flood_Village_Detector/issues
+repository=https://github.com/Krushna-007/Qgis_Flood_Village_Detector
+category=Analysis
+tags=flood,dem,analysis,village,detection,raster,disaster,risk,assessment
+
+homepage=https://github.com/Krushna-007/Qgis_Flood_Village_Detector
+
+experimental=False
+deprecated=False
+
+hasProcessingProvider=no
